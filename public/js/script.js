@@ -15,6 +15,24 @@ function startGame() {
     }
 }
 
+function startGameAgain() {
+    document.querySelector(".endgame").style.display = "none";
+    document.getElementById("usrName").value = '';
+    document.getElementById("roomNo").value = '';
+    document.getElementById("opponentName").innerHTML = '';
+    document.getElementById("assignedSymbol").innerHTML = '';
+    document.getElementById("startGame").innerText = '';
+    origBoard = Array.from(Array(9).keys());
+    // console.log(origBoard);
+    for (var i = 0; i < cells.length; i++) {
+        cells[i].innerText = ''; //clear
+        cells[i].style.removeProperty('background-color');
+        //add a event process vào click mouse event
+        cells[i].addEventListener('click', turnClick, false);
+    }
+    ws.close();
+}
+
 
 function turnClick(square) {
   turn(square.target.id);
@@ -68,7 +86,8 @@ function WebSocketTest() {
               document.getElementById("startGame").innerText = "You are the choosen one. Start the game.";
          } else if(received_msg.message == 'winning'){
               document.getElementById(received_msg.boardIndex).innerText = received_msg.symbol;
-              alert(received_msg.winningMessage);
+              document.querySelector(".endgame").style.display = "block";
+              document.querySelector(".endgame .text").innerText = received_msg.winningMessage;
          }
       };
 
