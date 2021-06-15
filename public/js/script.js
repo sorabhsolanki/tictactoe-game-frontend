@@ -55,7 +55,7 @@ function WebSocketTest() {
        let name = document.getElementById("usrName").value;
        let room = document.getElementById("roomNo").value;
        //open websocket
-       ws = new WebSocket("ws://localhost:8002/tictactoeserver");
+       ws = new WebSocket("ws://localhost/tictactoe");
 
       ws.onopen = function() {
          // Web Socket is connected, send data using send()
@@ -85,6 +85,10 @@ function WebSocketTest() {
          } else if(received_msg.message == 'startgame'){
               document.getElementById("startGame").innerText = "You are the choosen one. Start the game.";
          } else if(received_msg.message == 'winning'){
+              document.getElementById(received_msg.boardIndex).innerText = received_msg.symbol;
+              document.querySelector(".endgame").style.display = "block";
+              document.querySelector(".endgame .text").innerText = received_msg.winningMessage;
+         } else if(received_msg.message == 'draw'){
               document.getElementById(received_msg.boardIndex).innerText = received_msg.symbol;
               document.querySelector(".endgame").style.display = "block";
               document.querySelector(".endgame .text").innerText = received_msg.winningMessage;
